@@ -2,11 +2,12 @@ import * as React from 'react';
 import {useState} from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';  
-
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Finish from './components/Finish';
+import Recording from './components/Recording';
 
 function PlacementTest({navigation}){
-  const questions = [
+	const questions = [
 		{
 			questionText: 'What is the capital of France?',
 			answerOptions: [
@@ -45,69 +46,62 @@ function PlacementTest({navigation}){
 		},
 	];
 
-
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  	const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [showScore, setShowScore] = useState(false);
 	const [score, setScore] = useState(0);
 
-  function handleAnswerOptionClick(isCorrect){
+  	function handleAnswerOptionClick(isCorrect){
 		if (isCorrect) {
 			setScore(score + 1);
 		}
 
 		const nextQuestion = currentQuestion + 1;
 		if (nextQuestion < questions.length) {
-      console.log("pressed")
+      		console.log("pressed")
 			setCurrentQuestion(nextQuestion);
 		} else {
-      navigation.navigate('Finish',{
-        finalScore: score,
-      });
+      		navigation.navigate('Finish',{
+        		finalScore: score,
+      		});
 			// setShowScore(true);
 		}
 	};
 
   return (
     <View style={[styles.container, {flexDirection: "column"}]}>
-      <View style={{ flex: 1, backgroundColor: "red" }}>
-        <Text>You scored {score} out of {questions.length}</Text>
-      </View>
+		{/* Progress Bar */}
+      	<View style={{ flex: 1, backgroundColor: "red" }}>
+        	<Text>You scored {score} out of {questions.length}</Text>
+      	</View>
+		
+		{/* Questions */}
+		<View style={{ flex: 3, backgroundColor: "darkorange" }}>
+			<Text>{questions[currentQuestion].questionText}</Text>
+		</View>
+		
+		{/* Answer Options */}
+		<View style={{ flex: 2, backgroundColor: "green" }}>
+			{questions[currentQuestion].answerOptions.map((answerOption) => (<Button onPress={() => 
+			handleAnswerOptionClick(answerOption.isCorrect)} title={answerOption.answerText}></Button>))}
+			{/* {questions[currentQuestion].answerOptions.map((answerOption) => (<Text>{answerOption.answerText}</Text>))} */}
 
-      <View style={{ flex: 3, backgroundColor: "darkorange" }}>
-        <Text>{questions[currentQuestion].questionText}</Text>
-      </View>
+		</View>
 
-      <View style={{ flex: 2, backgroundColor: "green" }}>
-        {questions[currentQuestion].answerOptions.map((answerOption) => (<Button onPress={() => 
-        handleAnswerOptionClick(answerOption.isCorrect)} title={answerOption.answerText}></Button>))}
-      </View>
+		{/* Buttons */}
+		<View style={{ flex: 1, flexDirection:"row"}}>
+			{/* Submit Button */}
+			<View style={{backgroundColor:"yellow",flex:1}}>
+				<Button title={"Next"}/>
+			</View>
 
-      <View style={{ flex: 1, flexDirection:"row"}}>
-        <View style={{backgroundColor:"yellow",flex:1}}>
-          <Button title={"Next"}/>
-        </View>
-        <View style={{backgroundColor:"grey", flex:1, alignSelf:'stretch'}}>
-          <Button title={"Skip"}/>
-        </View>
-
-      </View>
+			{/* Skip Button */}
+			<View style={{backgroundColor:"grey", flex:1, alignSelf:'stretch'}}>
+				<Button title={"Skip"}/>
+			</View>
+		</View>
     </View>
   );
 };
-
-
-
-
-function Finish({route, navigation}) {
-  const { finalScore } = route.params;
-
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      <Text>{JSON.stringify(finalScore)}</Text>
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -119,14 +113,19 @@ const styles = StyleSheet.create({
 const Stack = createNativeStackNavigator();
 
 function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="PlacementTest">
-        <Stack.Screen name="PlacementTest" component={PlacementTest} />
-        <Stack.Screen name="Finish" component={Finish} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+	const [readingScore, setReadingScore] = useState(0);
+	const [listeningScore, setListeningScore] = useState(0);
+	const [speakingScore, setSpeakingScore] = useState(0);
+
+	return (
+		<NavigationContainer>
+		<Stack.Navigator initialRouteName="PlacementTest">
+			<Stack.Screen name="PlacementTest" component={PlacementTest} />
+			<Stack.Screen name="SpeakingTest" component={Recording}/>
+			<Stack.Screen name="Finish" component={Finish} />
+		</Stack.Navigator>
+		</NavigationContainer>
+	);
 }
 
 export default App;

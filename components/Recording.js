@@ -5,7 +5,6 @@ import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
 
 export default function Recording({ route, navigation }) {
-    const { setScore } = route.params;
     const [recording, setRecording] = useState();
     const [sound, setSound] = useState();
     const [audioURI, setAudioURI] = useState('');
@@ -68,6 +67,8 @@ export default function Recording({ route, navigation }) {
     
     async function Submit() {
         try {
+            const INFERENCE_ENDPOINT = "http://35.247.34.211:5000/predict"
+
             const info = await FileSystem.getInfoAsync(audioURI);
             console.log(`File info: ${JSON.stringify(info)}`);
             const uri = info.uri;
@@ -79,7 +80,14 @@ export default function Recording({ route, navigation }) {
                 data: 'data:audio/webm;codecs=opus;base64,' + base64String
             });
             console.log(response.data);
-            setScore()
+            const res = JSON.parse(JSON.stringify(response.data));
+            console.log(res["score"])
+            
+            navigation.navigate('Finish',{
+                readingScore: 0, listeningScore: res["score"]
+                });
+
+            // setScore()
         } catch (error) {
             console.error(error);
         }
@@ -111,3 +119,10 @@ export default function Recording({ route, navigation }) {
             </View>
       );
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 20,
+    },
+  });

@@ -20,12 +20,12 @@ export default function Finish({ route, navigation }) {
     return (
         <View style={[styles.container, { flexDirection: "column" }]}>
             <View style={styles.middle}>
-			    <Text style={{fontSize: 30, color:"#FFFFFF", fontWeight:"bold"}}>RESULT</Text>
-                <Text style={{fontSize: 15, color:"#FFFFFF"}}>{`Reading Score: ${readFinalScore}`}</Text>
-                <Text style={{fontSize: 15, color:"#FFFFFF"}}>{`Listening Score: ${listenFinalScore}`}</Text>
-                <Text style={{fontSize: 15, color:"#FFFFFF"}}>{`Speaking Score: ${speakingScore}`}</Text>
-                <Text style={{fontSize: 30, color:"#FFFFFF", fontWeight:"bold", textAlign: 'center',}}>Your Assigned Level:</Text>
-                <Text style={{fontSize: 30, color:"#FFFFFF", fontWeight:"bold"}}>{initialLevel}</Text>
+			    <Text style={{fontSize: 40, color:"#FFFFFF", fontWeight:"bold"}}>RESULT</Text>
+                <Text style={{fontSize: 25, color:"#FFFFFF", fontWeight:"bold", textAlign: 'center',}}>{`Reading: ${readFinalScore}`}</Text>
+                <Text style={{fontSize: 25, color:"#FFFFFF", fontWeight:"bold", textAlign: 'center',}}>{`Listening: ${listenFinalScore}`}</Text>
+                <Text style={{fontSize: 25, color:"#FFFFFF", fontWeight:"bold", textAlign: 'center',}}>{`Speaking: ${speakingScore}`}</Text>
+                <Text style={{fontSize: 25, color:"#FFFFFF", fontWeight:"bold", textAlign: 'center',}}>Your Assigned Level:</Text>
+                <Text style={{fontSize: 40, color:"#FFFFFF", fontWeight:"bold"}}>{initialLevel}</Text>
       		</View>
 
             <View style={styles.bottom}>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 25,
 	},
 	appButtonText: {
-		fontSize: 18,
+		fontSize: 22,
 		color: "#fff",
 		fontWeight: "bold",
 		alignSelf: "center",
@@ -88,10 +88,10 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
 		backgroundColor: "#EA8339",
 		borderWidth: 5,
-        borderTopLeftRadius: 20,
-		borderTopRightRadius: 20,
+        // borderTopLeftRadius: 20,
+		// borderTopRightRadius: 20,
 		justifyContent: 'space-between',
-		padding: 40,
+		padding: 20,
 		margin: 10,
         alignItems: 'center'
 	},

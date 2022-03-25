@@ -78,7 +78,6 @@ export default function Recording({ route, navigation }) {
             const base64String = await FileSystem.readAsStringAsync(uri, {
                 encoding: FileSystem.EncodingType.Base64
             });
-            console.log('data:audio/webm;codecs=opus;base64,' + base64String);
             const response = await axios.post(INFERENCE_ENDPOINT, {
                 data: 'data:audio/webm;codecs=opus;base64,' + base64String
             });
@@ -105,7 +104,7 @@ export default function Recording({ route, navigation }) {
     return (
         <View style={[styles.container, {flexDirection: "column"}]}>
             <View style={styles.title}>
-				<Text style={{fontSize: 20, color:"#FFFFFF"}}>SPEAKING TEST</Text>
+				<Text style={{fontSize: 40, color:"#FFFFFF", fontWeight:"bold"}}>SPEAKING TEST</Text>
       		</View>
 
 			{/* Progress Bar */}
@@ -115,9 +114,9 @@ export default function Recording({ route, navigation }) {
 		
 			{/* Questions */}
 			<View style={styles.middle}>
-                <Text>Press the 'Mic' button to record and 'Play' button to listen before submitting</Text>
-                <Text>Please record yourself reading this sentence</Text>
-                <Text>考試即將結束請你們交考卷</Text>
+                <Text style={{fontSize: 15, textAlign:"center"}}>Press the 'Mic' button to record and 'Play' button to listen before submitting</Text>
+                <Text style={{fontSize: 15, textAlign:"center"}}>Please record yourself reading this sentence</Text>
+                <Text style={{fontSize: 30, fontWeight: 'bold'}}>牛肉麵很好吃</Text>
                 <View style={{flexDirection:"row"}}>
                     <Icon reverse name={recording ? "mic-off-outline" : "mic-outline"} type="ionicon" size={35} onPress={recording ? stopRecording : startRecording} />
                     <Icon reverse name="play-outline" type="ionicon" size={35} onPress={playRecording} />
@@ -157,7 +156,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 25,
 	},
 	appButtonText: {
-		fontSize: 18,
+		fontSize: 22,
 		color: "#fff",
 		fontWeight: "bold",
 		alignSelf: "center",

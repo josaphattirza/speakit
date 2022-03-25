@@ -56,7 +56,7 @@ export default function Listening({ route, navigation }) {
   	return (
     	<View style={[styles.container, {flexDirection: "column"}]}>
 			<View style={styles.title}>
-				<Text style={{fontSize: 20, color:"#FFFFFF"}}>LISTENING TEST</Text>
+				<Text style={{fontSize: 40, color:"#FFFFFF", fontWeight:"bold"}}>LISTENING TEST</Text>
       		</View>
 
 			{/* Progress Bar */}
@@ -66,8 +66,8 @@ export default function Listening({ route, navigation }) {
 		
 			{/* Questions */}
 			<View style={styles.middle}>
-				<Text>{questions[currentQuestion].questionText}</Text>
-				<Icon name="play-outline" size={50} type="ionicon" onPress={playRecording} />
+				<Text style={{fontSize: 30, fontWeight: 'bold'}}>{questions[currentQuestion].questionText}</Text>
+				<Icon name="play-outline" size={70} type="ionicon" onPress={playRecording} />
 			</View>
 
 			<View style={styles.extraspace}>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 25,
 	},
 	appButtonText: {
-		fontSize: 18,
+		fontSize: 22,
 		color: "#fff",
 		fontWeight: "bold",
 		alignSelf: "center",

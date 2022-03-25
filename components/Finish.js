@@ -1,3 +1,5 @@
+import { View, Text, StyleSheet } from "react-native";
+
 export default function Finish({ route, navigation }) {
     const { finalScore } = route.params;
   
@@ -8,3 +10,10 @@ export default function Finish({ route, navigation }) {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 20,
+    },
+  });

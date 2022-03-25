@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react/cjs/react.development";
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
+import * as Progress from 'react-native-progress';
+import { Icon } from "react-native-elements";
+
+const INFERENCE_ENDPOINT = "http://35.247.34.211:5000/predict";
 
 export default function Recording({ route, navigation }) {
     const { setSpeakingScore } = route.params;
@@ -79,9 +83,12 @@ export default function Recording({ route, navigation }) {
                 data: 'data:audio/webm;codecs=opus;base64,' + base64String
             });
             console.log(response.data);
-            const speakingScore = JSON.parse(response.data)["score"];
+            const speakingScore = response.data["score"];
+            console.log(speakingScore);
             setSpeakingScore(speakingScore);
-            navigation.navigate("Finish");
+            navigation.navigate('Finish',{
+                speakingScore: Math.round(speakingScore * 10) / 10
+            });
         } catch (error) {
             console.error(error);
         }
@@ -96,27 +103,103 @@ export default function Recording({ route, navigation }) {
         }, [sound]);
     
     return (
-        <View style={styles.container}>
-            <Button
-                title={recording ? 'Stop Recording' : 'Start Recording'}
-                onPress={recording ? stopRecording : startRecording}
-            />
-            <Button
-                title="Play Recording"
-                onPress={playRecording}
-            />
-            <Button 
-                title='Submit'
-                onPress={Submit}
-            />
-            {/* <StatusBar style="auto" /> */}
-        </View>
+        <View style={[styles.container, {flexDirection: "column"}]}>
+            <View style={styles.title}>
+				<Text style={{fontSize: 20, color:"#FFFFFF"}}>SPEAKING TEST</Text>
+      		</View>
+
+			{/* Progress Bar */}
+			<View style={styles.top}>
+            <Progress.Bar progress={0.75} width={280} height={30} animated color="#EA8339"/>
+      		</View>
+		
+			{/* Questions */}
+			<View style={styles.middle}>
+                <Text>Press the 'Mic' button to record and 'Play' button to listen before submitting</Text>
+                <View style={{flexDirection:"row"}}>
+                    <Icon reverse name="mic-outline" type="ionicon" size={35} onPress={recording ? stopRecording : startRecording} />
+                    <Icon reverse name="play-outline" type="ionicon" size={35} onPress={playRecording} />
+                </View>
+			</View>
+		
+			{/* Answer Options */}
+			<View style={styles.bottom}>
+                <TouchableOpacity style={styles.appButtonContainer}
+                    title='Submit'
+                    onPress={Submit}
+                >
+                <Text style={styles.appButtonText}>Submit</Text>
+                </TouchableOpacity>
+			</View>
+    	</View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
-    },
+	container: {
+		flex: 1,
+		justifyContent: "space-between",
+		backgroundColor: "#385477",
+		padding: 20,
+		margin: 10,
+	},
+	screenContainer: {
+		flex: 1,
+		justifyContent: "center",
+		padding: 16
+	},
+	appButtonContainer: {
+		backgroundColor: "darkorange",
+		borderRadius: 25,
+		paddingVertical: 12,
+		paddingHorizontal: 25,
+	},
+	appButtonText: {
+		fontSize: 18,
+		color: "#fff",
+		fontWeight: "bold",
+		alignSelf: "center",
+		textTransform: "uppercase"
+	},
+    title: {
+		flex: 0.1,
+		backgroundColor: "#385477",
+		// borderWidth: 5,
+		borderTopLeftRadius: 20,
+		borderTopRightRadius: 20,
+		justifyContent: 'center',
+        alignItems: 'center'
+	},
+	top: {
+		flex: 0.1,
+		backgroundColor: "#385477",
+		// borderWidth: 5,
+		// borderTopLeftRadius: 20,
+		// borderTopRightRadius: 20,
+		justifyContent: 'center',
+        alignItems: 'center'
+	},
+	middle: {
+		flex: 0.6,
+		backgroundColor: "#FFFFFF",
+		borderWidth: 5,
+        borderTopLeftRadius: 20,
+		borderTopRightRadius: 20,
+		justifyContent: 'space-between',
+		padding: 40,
+		margin: 10,
+        alignItems: 'center'
+	},
+	bottom: {
+		flexDirection:'column',
+		flex:0.2,
+		marginBottom:10,
+		justifyContent:'space-between', 
+		paddingLeft: 20, 
+		paddingRight: 20
+	},
+	space: {
+		width: 20, // or whatever size you need
+		height: 20,
+	},	
 });

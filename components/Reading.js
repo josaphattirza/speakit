@@ -1,5 +1,7 @@
 import { useState } from "react/cjs/react.development";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, TouchableOpacity } from "react-native";
+import * as Progress from 'react-native-progress';
+// import { useFonts } from "@expo-google-fonts/poppins";
 
 export default function Reading({ route, navigation }){
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -8,39 +10,21 @@ export default function Reading({ route, navigation }){
 
 	const questions = [
 		{
-			questionText: 'What is the capital of France?',
+			questionText: '1. 叔叔是爸爸的...',
 			answerOptions: [
-				{ answerText: 'New York', isCorrect: false },
-				{ answerText: 'London', isCorrect: false },
-				{ answerText: 'Paris', isCorrect: true },
-				{ answerText: 'Dublin', isCorrect: false },
+				{ answerText: '媽媽', isCorrect: false },
+				{ answerText: '兄弟', isCorrect: true },
+				{ answerText: '姐姐', isCorrect: false },
+				{ answerText: '妹妹', isCorrect: false },
 			],
 		},
 		{
-			questionText: 'Who is CEO of Tesla?',
+			questionText: '2.雅加達是印尼的...',
 			answerOptions: [
-				{ answerText: 'Jeff Bezos', isCorrect: false },
-				{ answerText: 'Elon Musk', isCorrect: true },
-				{ answerText: 'Bill Gates', isCorrect: false },
-				{ answerText: 'Tony Stark', isCorrect: false },
-			],
-		},
-		{
-			questionText: 'The iPhone was created by which company?',
-			answerOptions: [
-				{ answerText: 'Apple', isCorrect: true },
-				{ answerText: 'Intel', isCorrect: false },
-				{ answerText: 'Amazon', isCorrect: false },
-				{ answerText: 'Microsoft', isCorrect: false },
-			],
-		},
-		{
-			questionText: 'How many Harry Potter books are there?',
-			answerOptions: [
-				{ answerText: '1', isCorrect: false },
-				{ answerText: '4', isCorrect: false },
-				{ answerText: '6', isCorrect: false },
-				{ answerText: '7', isCorrect: true },
+				{ answerText: '家鄉', isCorrect: false },
+				{ answerText: '首度', isCorrect: true },
+				{ answerText: '文化', isCorrect: false },
+				{ answerText: '食物', isCorrect: false },
 			],
 		},
 	];
@@ -66,42 +50,115 @@ export default function Reading({ route, navigation }){
 
   	return (
     	<View style={[styles.container, {flexDirection: "column"}]}>
+			<View style={styles.title}>
+				<Text style={{fontSize: 20, color:"#FFFFFF"}}>READING TEST</Text>
+      		</View>
+
 			{/* Progress Bar */}
-      		<View style={{ flex: 1, backgroundColor: "red" }}>
-        		<Text>You scored {score} out of {questions.length}</Text>
+			<View style={styles.top}>
+				<Progress.Bar progress={0.25} width={280} height={30} animated color="#EA8339"/>
       		</View>
 		
 			{/* Questions */}
-			<View style={{ flex: 3, backgroundColor: "darkorange" }}>
+			<View style={styles.middle}>
 				<Text>{questions[currentQuestion].questionText}</Text>
 			</View>
 		
 			{/* Answer Options */}
-			<View style={{ flex: 2, backgroundColor: "green" }}>
-				{questions[currentQuestion].answerOptions.map((answerOption, key) => (<Button key={key} onPress={() => 
-				handleAnswerOptionClick(answerOption.isCorrect)} title={answerOption.answerText}></Button>))}
-				{/* {questions[currentQuestion].answerOptions.map((answerOption) => (<Text>{answerOption.answerText}</Text>))} */}
-			</View>
-
-			{/* Buttons */}
-			<View style={{ flex: 1, flexDirection:"row"}}>
-				{/* Submit Button */}
-				<View style={{backgroundColor:"yellow",flex:1}}>
-					<Button title={"Next"}/>
-				</View>
-
-				{/* Skip Button */}
-				<View style={{backgroundColor:"grey", flex:1, alignSelf:'stretch'}}>
-					<Button title={"Skip"}/>
-				</View>
+			<View style={styles.bottom}>
+				{questions[currentQuestion].answerOptions.map((answerOption) => (<TouchableOpacity onPress={() => 
+				handleAnswerOptionClick(answerOption.isCorrect)} style={styles.appButtonContainer}><Text style={styles.appButtonText}>{answerOption.answerText}</Text></TouchableOpacity>))}
 			</View>
     	</View>
   	);
 };
 
+// let [fontsLoaded] = useFonts({
+//     Poppins_100Thin,
+//     Poppins_100Thin_Italic,
+//     Poppins_200ExtraLight,
+//     Poppins_200ExtraLight_Italic,
+//     Poppins_300Light,
+//     Poppins_300Light_Italic,
+//     Poppins_400Regular,
+//     Poppins_400Regular_Italic,
+//     Poppins_500Medium,
+//     Poppins_500Medium_Italic,
+//     Poppins_600SemiBold,
+//     Poppins_600SemiBold_Italic,
+//     Poppins_700Bold,
+//     Poppins_700Bold_Italic,
+//     Poppins_800ExtraBold,
+//     Poppins_800ExtraBold_Italic,
+//     Poppins_900Black,
+//     Poppins_900Black_Italic,
+//   });
+
+//   let fontSize = 24;
+//   let paddingVertical = 6;
+
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
-    },
+	container: {
+		flex: 1,
+		justifyContent: "space-between",
+		backgroundColor: "#385477",
+		padding: 20,
+		margin: 10,
+	},
+	screenContainer: {
+		flex: 1,
+		justifyContent: "center",
+		padding: 16
+	},
+	appButtonContainer: {
+		backgroundColor: "darkorange",
+		borderRadius: 25,
+		paddingVertical: 12,
+		paddingHorizontal: 25,
+	},
+	appButtonText: {
+		fontSize: 18,
+		color: "#fff",
+		fontWeight: "bold",
+		alignSelf: "center",
+		textTransform: "uppercase"
+	},
+	title: {
+		flex: 0.1,
+		backgroundColor: "#385477",
+		// borderWidth: 5,
+		// borderTopLeftRadius: 20,
+		// borderTopRightRadius: 20,
+		justifyContent: 'center',
+        alignItems: 'center'
+	},
+	top: {
+		flex: 0.1,
+		backgroundColor: "#385477",
+		// borderWidth: 5,
+		// borderTopLeftRadius: 20,
+		// borderTopRightRadius: 20,
+		justifyContent: 'center',
+        alignItems: 'center'
+	},
+	middle: {
+		// fontFamily: 'Poppins_100Thin',
+		flex: 0.4,
+		backgroundColor: "#FFFFFF",
+		
+		borderWidth: 5,
+		// font: "Poppins",
+	},
+	bottom: {
+		flexDirection:'column',
+		flex:0.4,
+		marginBottom:10,
+		justifyContent:'space-between', 
+		paddingLeft: 20, 
+		paddingRight: 20
+	},
+	space: {
+		width: 20, // or whatever size you need
+		height: 20,
+	},	
 });

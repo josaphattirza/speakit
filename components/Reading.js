@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useState} from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -69,46 +69,89 @@ function Reading({navigation}){
 		}
 	};
 
-  return (
+
+
+	TouchableOpacity.defaultProps = { activeOpacity: 0.8 };
+
+
+	return (
     <View style={[styles.container, {flexDirection: "column"}]}>
 		{/* Progress Bar */}
-      	<View style={{ flex: 1, backgroundColor: "red" }}>
+      	<View style={styles.top}>
         	<Text>You scored {readingScore} out of {questions.length}</Text>
       	</View>
 		
 		{/* Questions */}
-		<View style={{ flex: 3, backgroundColor: "darkorange" }}>
+		<View style={styles.middle}>
 			<Text>{questions[currentQuestion].questionText}</Text>
 		</View>
 		
 		{/* Answer Options */}
-		<View style={{ flex: 2, backgroundColor: "green" }}>
-			{questions[currentQuestion].answerOptions.map((answerOption) => (<Button onPress={() => 
-			handleAnswerOptionClick(answerOption.isCorrect)} title={answerOption.answerText}></Button>))}
+		<View style={styles.bottom}>
+			{/* {questions[currentQuestion].answerOptions.map((answerOption) => (<Button style={styles.button} onPress={() => 
+			handleAnswerOptionClick(answerOption.isCorrect)} title={answerOption.answerText}></Button>))} */}
+
+			{questions[currentQuestion].answerOptions.map((answerOption) => (<TouchableOpacity onPress={() => 
+			handleAnswerOptionClick(answerOption.isCorrect)} style={styles.appButtonContainer}><Text style={styles.appButtonText}>{answerOption.answerText}</Text>
+  			</TouchableOpacity>))}
+
 			{/* {questions[currentQuestion].answerOptions.map((answerOption) => (<Text>{answerOption.answerText}</Text>))} */}
-		</View>
-
-		{/* Buttons */}
-		<View style={{ flex: 1, flexDirection:"row"}}>
-			{/* Submit Button */}
-			<View style={{backgroundColor:"yellow",flex:1}}>
-				<Button title={"Next"}/>
-			</View>
-
-			{/* Skip Button */}
-			<View style={{backgroundColor:"grey", flex:1, alignSelf:'stretch'}}>
-				<Button title={"Skip"}/>
-			</View>
 		</View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
-    },
+	container: {
+		flex: 1,
+		justifyContent: "space-between",
+		backgroundColor: "#385477",
+		padding: 20,
+		margin: 10,
+	},
+	screenContainer: {
+		flex: 1,
+		justifyContent: "center",
+		padding: 16
+	},
+	appButtonContainer: {
+		backgroundColor: "darkorange",
+		borderRadius: 25,
+		paddingVertical: 12,
+		paddingHorizontal: 25,
+	},
+	appButtonText: {
+		fontSize: 18,
+		color: "#fff",
+		fontWeight: "bold",
+		alignSelf: "center",
+		textTransform: "uppercase"
+	},
+	top: {
+		flex: 0.3,
+		backgroundColor: "#FFFFFF",
+		borderWidth: 5,
+		borderTopLeftRadius: 20,
+		borderTopRightRadius: 20,
+	},
+	middle: {
+		flex: 0.3,
+		backgroundColor: "#EA8339",
+		borderWidth: 5,
+	},
+	bottom: {
+		flexDirection:'column',
+		flex:0.3,
+		marginBottom:10,
+		justifyContent:'space-between', 
+		paddingLeft: 20, 
+		paddingRight: 20
+	},
+	space: {
+		width: 20, // or whatever size you need
+		height: 20,
+	  },
+	
   });
 
 export default Reading;

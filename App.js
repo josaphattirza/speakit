@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator();
 function App() {
 	return (
 		<NavigationContainer>
-		<Stack.Navigator initialRouteName="Recording">
+		<Stack.Navigator initialRouteName="Reading">
 			<Stack.Screen name="Reading" component={Reading} />
 			<Stack.Screen name="Recording" component={Recording}/>
 			<Stack.Screen name="Listening" component={Listening}/>

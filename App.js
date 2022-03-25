@@ -9,10 +9,10 @@ import Reading from './components/Reading';
 import Listening from './components/Listening';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
+  	container: {
+    	flex: 1,
+    	padding: 20,
+  	},
 });
 
 const Stack = createNativeStackNavigator();

@@ -5,7 +5,7 @@ import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
 
 export default function Recording({ route, navigation }) {
-    const { setScore } = route.params;
+    const { setSpeakingScore } = route.params;
     const [recording, setRecording] = useState();
     const [sound, setSound] = useState();
     const [audioURI, setAudioURI] = useState('');
@@ -79,7 +79,9 @@ export default function Recording({ route, navigation }) {
                 data: 'data:audio/webm;codecs=opus;base64,' + base64String
             });
             console.log(response.data);
-            setScore()
+            const speakingScore = JSON.parse(response.data)["score"];
+            setSpeakingScore(speakingScore);
+            navigation.navigate("Finish");
         } catch (error) {
             console.error(error);
         }
@@ -93,23 +95,23 @@ export default function Recording({ route, navigation }) {
             } : undefined;
         }, [sound]);
     
-        return (
-            <View style={styles.container}>
-                <Button
-                    title={recording ? 'Stop Recording' : 'Start Recording'}
-                    onPress={recording ? stopRecording : startRecording}
-                />
-                <Button
-                    title="Play Recording"
-                    onPress={playRecording}
-                />
-                <Button 
-                    title='Submit'
-                    onPress={Submit}
-                />
-                {/* <StatusBar style="auto" /> */}
-            </View>
-      );
+    return (
+        <View style={styles.container}>
+            <Button
+                title={recording ? 'Stop Recording' : 'Start Recording'}
+                onPress={recording ? stopRecording : startRecording}
+            />
+            <Button
+                title="Play Recording"
+                onPress={playRecording}
+            />
+            <Button 
+                title='Submit'
+                onPress={Submit}
+            />
+            {/* <StatusBar style="auto" /> */}
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

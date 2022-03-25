@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react/cjs/react.development";
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, LogBox } from 'react-native';
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
@@ -116,8 +116,10 @@ export default function Recording({ route, navigation }) {
 			{/* Questions */}
 			<View style={styles.middle}>
                 <Text>Press the 'Mic' button to record and 'Play' button to listen before submitting</Text>
+                <Text>Please record yourself reading this sentence</Text>
+                <Text>考試即將結束請你們交考卷</Text>
                 <View style={{flexDirection:"row"}}>
-                    <Icon reverse name="mic-outline" type="ionicon" size={35} onPress={recording ? stopRecording : startRecording} />
+                    <Icon reverse name={recording ? "mic-off-outline" : "mic-outline"} type="ionicon" size={35} onPress={recording ? stopRecording : startRecording} />
                     <Icon reverse name="play-outline" type="ionicon" size={35} onPress={playRecording} />
                 </View>
 			</View>
@@ -203,3 +205,7 @@ const styles = StyleSheet.create({
 		height: 20,
 	},	
 });
+
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+]);

@@ -63,10 +63,14 @@ export default function Reading({ route, navigation }){
 			<View style={styles.middle}>
 				<Text>{questions[currentQuestion].questionText}</Text>
 			</View>
+
+			<View style={styles.extraspace}>
+
+			</View>
 		
 			{/* Answer Options */}
 			<View style={styles.bottom}>
-				{questions[currentQuestion].answerOptions.map((answerOption) => (<TouchableOpacity onPress={() => 
+				{questions[currentQuestion].answerOptions.map((answerOption, key) => (<TouchableOpacity key={key} onPress={() => 
 				handleAnswerOptionClick(answerOption.isCorrect)} style={styles.appButtonContainer}><Text style={styles.appButtonText}>{answerOption.answerText}</Text></TouchableOpacity>))}
 			</View>
     	</View>
@@ -141,17 +145,21 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
         alignItems: 'center'
 	},
+	extraspace:{
+		flex:0.02
+	},
 	middle: {
 		// fontFamily: 'Poppins_100Thin',
 		flex: 0.4,
 		backgroundColor: "#FFFFFF",
-		
-		borderWidth: 5,
+		// borderWidth: 5,
+		justifyContent: 'center',
+        alignItems: 'center'
 		// font: "Poppins",
 	},
 	bottom: {
 		flexDirection:'column',
-		flex:0.4,
+		flex:0.38,
 		marginBottom:10,
 		justifyContent:'space-between', 
 		paddingLeft: 20, 

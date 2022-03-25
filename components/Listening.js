@@ -68,12 +68,15 @@ export default function Listening({ route, navigation }) {
 			<View style={styles.middle}>
 				<Text>{questions[currentQuestion].questionText}</Text>
 				<Icon name="play-outline" size={50} type="ionicon" onPress={playRecording} />
+			</View>
+
+			<View style={styles.extraspace}>
 
 			</View>
-		
+
 			{/* Answer Options */}
 			<View style={styles.bottom}>
-				{questions[currentQuestion].answerOptions.map((answerOption) => (<TouchableOpacity onPress={() => 
+				{questions[currentQuestion].answerOptions.map((answerOption, key) => (<TouchableOpacity key={key} onPress={() => 
 				handleAnswerOptionClick(answerOption.isCorrect)} style={styles.appButtonContainer}><Text style={styles.appButtonText}>{answerOption.answerText}</Text></TouchableOpacity>))}
 			</View>
     	</View>
@@ -115,7 +118,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
         alignItems: 'center'
 	},
-
 	top: {
 		flex: 0.1,
 		backgroundColor: "#385477",
@@ -134,9 +136,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
         alignItems: 'center'
 	},
+	extraspace:{
+		flex:0.02
+	},
 	bottom: {
 		flexDirection:'column',
-		flex:0.4,
+		flex:0.38,
 		marginBottom:10,
 		justifyContent:'space-between', 
 		paddingLeft: 20, 
